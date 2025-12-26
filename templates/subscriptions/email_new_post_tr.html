@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title_tr }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h1 style="color: #1a1a1a; margin: 0;">Yeni Yazı: {{ post.title_tr }}</h1>
+    </div>
+    
+    <div style="margin-bottom: 30px;">
+        {% if post.summary_tr %}
+        <p style="font-size: 16px; color: #555;">{{ post.summary_tr }}</p>
+        {% endif %}
+        
+        <p style="margin: 20px 0;">
+            <a href="{{ site_url }}/tr/blog/{{ post.slug }}/" 
+               style="display: inline-block; background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                Yazının Tamamını Oku
+            </a>
+        </p>
+    </div>
+    
+    <div style="border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; color: #666;">
+        <p>Bu e-postayı daygun.net'ten güncellemelere abone olduğunuz için alıyorsunuz</p>
+        <p>
+            <a href="{{ unsubscribe_url }}" style="color: #3b82f6;">Abonelikten Çık</a>
+        </p>
+    </div>
+</body>
+</html>

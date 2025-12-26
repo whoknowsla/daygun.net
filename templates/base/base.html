@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="{{ lang_code|default:'en' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}daygun.net - Personal blog and portfolio{% endblock %}">
+    <title>{% block title %}daygun.net{% endblock %}</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col bg-white text-gray-900">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-blue-600 focus:text-white">
+        Skip to main content
+    </a>
+
+    <nav class="bg-white border-b border-gray-200" role="navigation" aria-label="Main navigation">
+        <div class="max-w-5xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/{{ lang_code }}/" class="text-xl font-bold text-gray-900 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                    daygun.net
+                </a>
+                
+                <div class="flex items-center space-x-6">
+                    <a href="/{{ lang_code }}/" class="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                        {% if lang_code == 'tr' %}Ana Sayfa{% else %}Home{% endif %}
+                    </a>
+                    <a href="/{{ lang_code }}/blog/" class="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                        {% if lang_code == 'tr' %}Blog{% else %}Blog{% endif %}
+                    </a>
+                    <a href="/{{ lang_code }}/projects/" class="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                        {% if lang_code == 'tr' %}Projeler{% else %}Projects{% endif %}
+                    </a>
+                    <a href="/{{ lang_code }}/about/" class="text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                        {% if lang_code == 'tr' %}Hakkımda{% else %}About{% endif %}
+                    </a>
+                    
+                    <div class="flex space-x-2 border-l border-gray-300 pl-4">
+                        <a href="/en{{ request.path|slice:'3:' }}" 
+                           class="px-2 py-1 rounded {% if lang_code == 'en' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           aria-label="Switch to English">
+                            EN
+                        </a>
+                        <a href="/tr{{ request.path|slice:'3:' }}" 
+                           class="px-2 py-1 rounded {% if lang_code == 'tr' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           aria-label="Türkçeye geç">
+                            TR
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    <div class="max-w-5xl mx-auto px-4 mt-4" role="alert">
+        {% for message in messages %}
+        <div class="p-4 mb-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main id="main-content" class="flex-1 max-w-5xl w-full mx-auto px-4 py-8" role="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-50 border-t border-gray-200 mt-12" role="contentinfo">
+        <div class="max-w-5xl mx-auto px-4 py-8">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">
+                        {% if lang_code == 'tr' %}Bülten{% else %}Newsletter{% endif %}
+                    </h3>
+                    <p class="text-gray-600 mb-4">
+                        {% if lang_code == 'tr' %}
+                        Yeni yazılardan haberdar olmak için abone olun.
+                        {% else %}
+                        Subscribe to get notified about new posts.
+                        {% endif %}
+                    </p>
+                    <form action="/{{ lang_code }}/subscribe/" method="post" class="flex gap-2">
+                        {% csrf_token %}
+                        <input type="email" name="email" required
+                               class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               placeholder="{% if lang_code == 'tr' %}E-posta adresiniz{% else %}your.email@example.com{% endif %}"
+                               aria-label="{% if lang_code == 'tr' %}E-posta adresi{% else %}Email address{% endif %}">
+                        <button type="submit" 
+                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            {% if lang_code == 'tr' %}Abone Ol{% else %}Subscribe{% endif %}
+                        </button>
+                    </form>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">
+                        {% if lang_code == 'tr' %}İletişim{% else %}Contact{% endif %}
+                    </h3>
+                    <p class="text-gray-600">
+                        © {{ current_year|default:"2024" }} daygun.net
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{% if lang_code == 'tr' %}Ana Sayfa{% else %}Home{% endif %} - daygun.net{% endblock %}
+
+{% block content %}
+<div class="space-y-12">
+    {% if about_content %}
+    <section class="text-center py-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            {% if lang_code == 'tr' %}Merhaba, ben Daygun{% else %}Hi, I'm Daygun{% endif %}
+        </h1>
+        <div class="prose prose-lg mx-auto text-gray-700 max-w-3xl">
+            {{ about_content.get_bio_short|safe }}
+        </div>
+    </section>
+    {% endif %}
+
+    <section>
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">
+                {% if lang_code == 'tr' %}Son Yazılar{% else %}Recent Posts{% endif %}
+            </h2>
+            <a href="/{{ lang_code }}/blog/" 
+               class="text-blue-600 hover:text-blue-800 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                {% if lang_code == 'tr' %}Tümünü Gör →{% else %}View All →{% endif %}
+            </a>
+        </div>
+
+        {% if recent_posts %}
+        <div class="grid md:grid-cols-3 gap-6">
+            {% for post in recent_posts %}
+            <article class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <h3 class="text-xl font-semibold mb-3">
+                    <a href="/{{ lang_code }}/blog/{{ post.slug }}/" 
+                       class="text-gray-900 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+                        {{ post.get_title|safe }}
+                    </a>
+                </h3>
+                {% if post.get_summary %}
+                <p class="text-gray-600 mb-4">
+                    {{ post.get_summary|truncatewords:20 }}
+                </p>
+                {% endif %}
+                <time class="text-sm text-gray-500" datetime="{{ post.published_at|date:'Y-m-d' }}">
+                    {{ post.published_at|date:"F d, Y" }}
+                </time>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-600">
+            {% if lang_code == 'tr' %}Henüz yazı yok.{% else %}No posts yet.{% endif %}
+        </p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

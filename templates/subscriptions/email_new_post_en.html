@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title_en }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h1 style="color: #1a1a1a; margin: 0;">New Post: {{ post.title_en }}</h1>
+    </div>
+    
+    <div style="margin-bottom: 30px;">
+        {% if post.summary_en %}
+        <p style="font-size: 16px; color: #555;">{{ post.summary_en }}</p>
+        {% endif %}
+        
+        <p style="margin: 20px 0;">
+            <a href="{{ site_url }}/en/blog/{{ post.slug }}/" 
+               style="display: inline-block; background-color: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                Read Full Post
+            </a>
+        </p>
+    </div>
+    
+    <div style="border-top: 1px solid #ddd; padding-top: 20px; font-size: 14px; color: #666;">
+        <p>You're receiving this email because you subscribed to updates from daygun.net</p>
+        <p>
+            <a href="{{ unsubscribe_url }}" style="color: #3b82f6;">Unsubscribe</a>
+        </p>
+    </div>
+</body>
+</html>

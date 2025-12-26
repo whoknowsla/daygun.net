@@ -1,0 +1,10 @@
+New Post: {{ post.title_en }}
+
+{% if post.summary_en %}{{ post.summary_en }}{% endif %}
+
+Read the full post:
+{{ site_url }}/en/blog/{{ post.slug }}/
+
+---
+You're receiving this email because you subscribed to updates from daygun.net
+Unsubscribe: {{ unsubscribe_url }}

@@ -1,0 +1,10 @@
+Yeni Yazı: {{ post.title_tr }}
+
+{% if post.summary_tr %}{{ post.summary_tr }}{% endif %}
+
+Yazının tamamını okuyun:
+{{ site_url }}/tr/blog/{{ post.slug }}/
+
+---
+Bu e-postayı daygun.net'ten güncellemelere abone olduğunuz için alıyorsunuz
+Abonelikten çık: {{ unsubscribe_url }}

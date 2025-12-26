@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{% if lang_code == 'tr' %}Hakkımda{% else %}About{% endif %} - daygun.net{% endblock %}
+
+{% block content %}
+<article class="max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8 text-gray-900">
+        {% if lang_code == 'tr' %}Hakkımda{% else %}About Me{% endif %}
+    </h1>
+
+    {% if about_content %}
+    <div class="prose prose-lg max-w-none mb-12">
+        {{ about_content.get_bio_full|safe }}
+    </div>
+    {% endif %}
+
+    {% if experiences %}
+    <section class="mt-12">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900">
+            {% if lang_code == 'tr' %}Deneyim{% else %}Experience{% endif %}
+        </h2>
+        
+        <div class="space-y-8">
+            {% for exp in experiences %}
+            <div class="border-l-4 border-blue-600 pl-6 py-2">
+                <h3 class="text-xl font-semibold text-gray-900">{{ exp.get_title }}</h3>
+                <p class="text-lg text-gray-700 mt-1">{{ exp.get_company }}</p>
+                <p class="text-sm text-gray-500 mt-2">
+                    {{ exp.start_date|date:"F Y" }} - 
+                    {% if exp.is_current %}
+                        {% if lang_code == 'tr' %}Halen{% else %}Present{% endif %}
+                    {% else %}
+                        {{ exp.end_date|date:"F Y" }}
+                    {% endif %}
+                </p>
+                <div class="prose mt-4 text-gray-700">
+                    {{ exp.get_description|safe }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</article>
+{% endblock %}
