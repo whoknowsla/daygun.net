@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from apps.blog.models import BlogPost
-from .models import Project, Experience, AboutContent
+from .models import Project, Experience, AboutContent, Social, ContactInfo
 
 def home_redirect(request):
     lang = request.GET.get('lang', '')
@@ -66,5 +66,22 @@ def projects(request, lang_code):
     
     return render(request, 'pages/projects.html', {
         'projects': all_projects,
+        'lang_code': lang_code
+    })
+
+def contact(request, lang_code):
+    if lang_code not in ['en', 'tr']:
+        lang_code = 'en'
+    
+    contact_info = ContactInfo.objects.first()
+    if contact_info:
+        contact_info.get_location = lambda: contact_info.get_location(lang_code)
+        contact_info.get_contact_text = lambda: contact_info.get_contact_text(lang_code)
+    
+    socials = Social.objects.filter(is_active=True)
+    
+    return render(request, 'pages/contact.html', {
+        'contact_info': contact_info,
+        'socials': socials,
         'lang_code': lang_code
     })

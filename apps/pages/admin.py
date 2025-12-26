@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Experience, AboutContent
+from .models import Project, Experience, AboutContent, Social, ContactInfo
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
@@ -60,6 +60,41 @@ class AboutContentAdmin(admin.ModelAdmin):
     
     def has_add_permission(self, request):
         return not AboutContent.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+@admin.register(Social)
+class SocialAdmin(admin.ModelAdmin):
+    list_display = ['platform', 'username', 'url', 'is_active', 'order']
+    list_filter = ['platform', 'is_active']
+    search_fields = ['username', 'url']
+    ordering = ['order', '-created_at']
+    
+    fieldsets = (
+        (None, {
+            'fields': ('platform', 'username', 'url', 'is_active', 'order')
+        }),
+    )
+
+@admin.register(ContactInfo)
+class ContactInfoAdmin(admin.ModelAdmin):
+    list_display = ['email', 'phone', 'updated_at']
+    
+    fieldsets = (
+        ('Contact Details', {
+            'fields': ('email', 'phone')
+        }),
+        ('Turkish Content', {
+            'fields': ('location_tr', 'contact_text_tr')
+        }),
+        ('English Content', {
+            'fields': ('location_en', 'contact_text_en')
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        return not ContactInfo.objects.exists()
     
     def has_delete_permission(self, request, obj=None):
         return False

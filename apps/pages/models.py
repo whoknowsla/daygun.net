@@ -102,3 +102,55 @@ class AboutContent(models.Model):
 
     def get_bio_full(self, lang):
         return getattr(self, f'bio_full_{lang}', self.bio_full_en)
+
+
+class Social(models.Model):
+    PLATFORM_CHOICES = [
+        ('github', 'GitHub'),
+        ('linkedin', 'LinkedIn'),
+        ('twitter', 'Twitter'),
+        ('instagram', 'Instagram'),
+        ('youtube', 'YouTube'),
+        ('facebook', 'Facebook'),
+        ('email', 'Email'),
+        ('website', 'Website'),
+        ('other', 'Other'),
+    ]
+    
+    platform = models.CharField(max_length=50, choices=PLATFORM_CHOICES, verbose_name="Platform")
+    username = models.CharField(max_length=255, blank=True, verbose_name="Username")
+    url = models.URLField(verbose_name="URL")
+    is_active = models.BooleanField(default=True, verbose_name="Active")
+    order = models.IntegerField(default=0, verbose_name="Order")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['order', '-created_at']
+        verbose_name = "Social Link"
+        verbose_name_plural = "Social Links"
+    
+    def __str__(self):
+        return f"{self.get_platform_display()} - {self.username or self.url}"
+
+
+class ContactInfo(models.Model):
+    email = models.EmailField(verbose_name="Email")
+    phone = models.CharField(max_length=50, blank=True, verbose_name="Phone")
+    location_tr = models.CharField(max_length=255, blank=True, verbose_name="Location (Turkish)")
+    location_en = models.CharField(max_length=255, blank=True, verbose_name="Location (English)")
+    contact_text_tr = models.TextField(verbose_name="Contact Text (Turkish)")
+    contact_text_en = models.TextField(verbose_name="Contact Text (English)")
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Contact Information"
+        verbose_name_plural = "Contact Information"
+    
+    def __str__(self):
+        return "Contact Information"
+    
+    def get_location(self, lang):
+        return getattr(self, f'location_{lang}', self.location_en)
+    
+    def get_contact_text(self, lang):
+        return getattr(self, f'contact_text_{lang}', self.contact_text_en)
